@@ -43,7 +43,6 @@ export class HomeComponent implements OnInit {
   getPlaylist(playlistID: string) {
     this.yt.getPlaylist(playlistID)
       .subscribe((videos: any) => {
-        console.log('videos: ', videos);
         this.videos = videos;
       });
   }

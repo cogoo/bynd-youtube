@@ -1,5 +1,5 @@
+import { RouterTestingModule } from '@angular/router/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { VideoPlayerComponent } from './video-player.component';
 
 describe('VideoPlayerComponent', () => {
@@ -8,9 +8,11 @@ describe('VideoPlayerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ VideoPlayerComponent ]
+      imports: [RouterTestingModule],
+      declarations: [VideoPlayerComponent],
+      providers: []
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
