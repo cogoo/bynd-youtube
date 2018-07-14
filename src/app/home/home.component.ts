@@ -37,7 +37,7 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getPlaylist('PLSi28iDfECJPJYFA4wjlF5KUucFvc0qbQ');
+    // this.getPlaylist('PLSi28iDfECJPJYFA4wjlF5KUucFvc0qbQ');
   }
 
   getPlaylist(playlistID: string) {
