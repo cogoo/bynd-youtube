@@ -1,0 +1,21 @@
+.video-wrapper {}
+
+.video-img {
+    object-fit: cover;
+    height: 160px;
+    width: 100%;
+}
+
+.play-icon {
+    width: 28px;
+}
+
+.bg-black-50 {
+    background-color: rgba(#000, 0.5);
+}
+
+div:focus,
+button:focus,
+select:focus {
+  outline: none;
+}

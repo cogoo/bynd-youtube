@@ -1,0 +1,26 @@
+<section main>
+  <div [@listAnimation]="videos.length" class="flex flex-wrap container mx-auto">
+    <div *ngFor="let video of videos" class="w-full md:w-1/2 lg:w-1/3 px-3 mb-12 cursor-pointer video-wrapper appearance-none"
+      routerLink="/video/{{video?.contentDetails?.videoId}}">
+      <div class="relative rounded overflow-hidden shadow-lg">
+        <img class="block video-img " [src]="video?.snippet?.thumbnails?.high?.url || video?.snippet?.thumbnails?.default?.url">
+        <div class="absolute flex items-end pin-b pin-l w-full bg-black-50 text-white p-4">
+          <div class="w-3/4">
+            <p [innerHTML]="video?.snippet?.title "></p>
+          </div>
+          <div class="w-1/4 text-right">
+            <img class="play-icon align-bottom" src="assets/logo/play.png" alt="">
+          </div>
+        </div>
+      </div>
+      <div class="mt-3 video-content">
+        <!-- If I need to add extra text, i usually use this syntax otherwise use [innerHtml] -->
+        <h4 class="text-grey-darkest"> Published on {{video?.snippet?.publishedAt | date}} </h4>
+        <p class="mt-1 break-words text-grey-dark">
+          {{video?.snippet?.description | slice:0:130}}...
+        </p>
+      </div>
+    </div>
+  </div>
+
+</section>
