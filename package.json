@@ -9,7 +9,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "build-ci": "ng build --aot --prod",
-    "test-ci": "ng test --watch false",
+    "test-ci": "ng test --watch false"
   },
   "private": true,
   "dependencies": {
