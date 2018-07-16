@@ -15,3 +15,9 @@ Tailwind - [(Tailwind)](https://tailwindcss.com/) : A Utility-First CSS Framewor
 Rendertron [(Rendertron)](https://render-tron.appspot.com/) : Rendertron renders requested pages using Headless Chrome, auto-detecting when your PWA has completed loading and serializes the response back to the original request. 
 
 > Experimented with rendertron as an alternative to Angular Universal
+
+## Extras
+
+Implemented CI / CD with [Circle CI](https://circleci.com/)
+
+Hosting with Firebase [Firebase](https://firebase.google.com/) and using Firebase Cloud Functions to serve the app
