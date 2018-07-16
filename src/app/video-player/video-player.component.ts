@@ -1,18 +1,21 @@
 import { Item } from './../../interfaces/videos';
 import { MetaService } from './../service/meta.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-video-player',
   templateUrl: './video-player.component.html',
   styleUrls: ['./video-player.component.scss']
 })
-export class VideoPlayerComponent implements OnInit {
+export class VideoPlayerComponent implements OnInit, OnDestroy {
 
   video: Item;
-  videoUrl;
+  videoUrl: SafeHtml;
+  private destroys$ = new Subject();
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -23,6 +26,9 @@ export class VideoPlayerComponent implements OnInit {
 
   ngOnInit() {
     this.activatedRoute.data
+      .pipe(
+        takeUntil(this.destroys$)
+      )
       .subscribe((data) => {
         this.video = data[0].items[0];
         this.videoUrl = this.sanitizer.bypassSecurityTrustHtml(this.video.player.embedHtml);
@@ -35,6 +41,11 @@ export class VideoPlayerComponent implements OnInit {
         });
       });
 
+  }
+
+  ngOnDestroy() {
+    this.destroys$.next(true);
+    this.destroys$.unsubscribe();
   }
 
   goBack() {
