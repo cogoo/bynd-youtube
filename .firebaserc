@@ -1,5 +1,6 @@
 {
   "projects": {
-    "rendertron": "rendertron-9324f"
+    "rendertron": "rendertron-9324f",
+    "default": "rendertron-9324f"
   }
 }
