@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
@@ -18,6 +19,7 @@ import { VideoPlayerComponent } from './video-player/video-player.component';
   ],
   imports: [
     BrowserModule,
+    InfiniteScrollModule,
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule
