@@ -2,12 +2,17 @@ export interface Item {
     etag: string;
     id: string;
     snippet: Snippet;
+    player: Player;
     contentDetails: ContentDetails;
 }
 
 export interface ContentDetails {
     videoId: string;
     videoPublishedAt?: string;
+}
+
+export interface Player {
+    embedHtml: string;
 }
 
 export interface Snippet {
