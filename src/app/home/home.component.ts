@@ -11,6 +11,8 @@ import {
   query,
   stagger
 } from '@angular/animations';
+import { BehaviorSubject } from 'rxjs';
+import { tap, take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
@@ -31,7 +33,14 @@ import {
 
 export class HomeComponent implements OnInit {
 
-  videos: Item[];
+  // videos: Item[] = [];
+
+
+  videos$ = new BehaviorSubject([]);
+  private _batch = 10;
+  private _pageToken: string;
+  private _endOfFeed = false;
+  private _playlistID = 'PLl-K7zZEsYLlTSrObc8GxDLarH7tF9WeW';
 
   constructor(
     private yt: YoutubeService,
@@ -41,18 +50,40 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
 
     this.meta.generateTags({});
-    this.getPlaylist('PLo12SYwt93SRKKGVT3oMejfgjBo2yBhBq');
+    this.getPlaylist();
 
   }
 
-  getPlaylist(playlistID: string) {
+  private getPlaylist(pageToken?: string) {
 
-    this.yt.getPlaylist(playlistID)
-      .subscribe((videos: any) => {
-        this.videos = videos;
-      });
+    if (this._endOfFeed) {
+      return;
+    }
 
+    this.yt.getPlaylist(this._playlistID, pageToken)
+      .pipe(
+        tap((videos: any) => {
+          console.log(videos);
+          const newVideos = videos.items.slice(0, this._batch);
+          const currentVideos = this.videos$.getValue();
+          if (!videos.nextPageToken) {
+            this._endOfFeed = true;
+          } else {
+            this._pageToken = videos.nextPageToken;
+          }
+
+          this._batch += 10;
+          this.videos$.next([...currentVideos, ...newVideos]);
+        }),
+        take(1)
+      )
+      .subscribe();
   }
 
+  onScroll() {
+    if (!this._endOfFeed) {
+      this.getPlaylist(this._pageToken);
+    }
+  }
 
 }

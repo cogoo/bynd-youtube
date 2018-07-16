@@ -1,7 +1,7 @@
 <section main>
 
-  <div [@listAnimation]="videos?.length" class="flex flex-wrap container mx-auto">
-    <div *ngFor="let video of videos" class="w-full md:w-1/2 lg:w-1/3 px-3 mb-12 cursor-pointer video-wrapper appearance-none"
+  <div [@listAnimation]="(videos$ | async).length" class="flex flex-wrap container mx-auto">
+    <div *ngFor="let video of videos$ | async" class="w-full md:w-1/2 lg:w-1/3 px-3 mb-12 cursor-pointer video-wrapper appearance-none"
       routerLink="/video/{{video?.contentDetails?.videoId}}">
       <div class="relative rounded overflow-hidden shadow-lg">
         <img class="block video-img " [src]="video?.snippet?.thumbnails?.high?.url || video?.snippet?.thumbnails?.default?.url">
@@ -25,3 +25,6 @@
   </div>
 
 </section>
+
+<div infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="1000" (scrolled)="onScroll()">
+</div>

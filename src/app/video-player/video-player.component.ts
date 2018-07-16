@@ -1,8 +1,7 @@
 import { Item } from './../../interfaces/videos';
 import { MetaService } from './../service/meta.service';
 import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
@@ -16,14 +15,14 @@ export class VideoPlayerComponent implements OnInit {
   videoUrl;
 
   constructor(
-    private location: Location,
-    private route: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
     private sanitizer: DomSanitizer,
-    private meta: MetaService
+    private meta: MetaService,
+    private router: Router
   ) { }
 
   ngOnInit() {
-    this.route.data
+    this.activatedRoute.data
       .subscribe((data) => {
         this.video = data[0].items[0];
         this.videoUrl = this.sanitizer.bypassSecurityTrustHtml(this.video.player.embedHtml);
@@ -39,7 +38,8 @@ export class VideoPlayerComponent implements OnInit {
   }
 
   goBack() {
-    this.location.back();
+    this.router.navigate(['']);
+    // cant use: this.location.back(); :(
   }
 
 }
