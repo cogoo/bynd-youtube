@@ -27,3 +27,5 @@ Hosting with Firebase [Firebase](https://firebase.google.com/) and using Firebas
 - Add page transition effect
 - Show related videos in player screen
 - Have auto-play feature on video player screen
+- Write more useful unit tests
+- Write some e2e tests
