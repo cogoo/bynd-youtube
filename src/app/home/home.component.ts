@@ -1,18 +1,17 @@
 import { MetaService } from './../service/meta.service';
 import { YoutubeService } from './../service/youtube.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Item } from '../../interfaces/videos';
 import {
   trigger,
-  state,
   style,
   animate,
   transition,
   query,
   stagger
 } from '@angular/animations';
-import { BehaviorSubject } from 'rxjs';
-import { tap, take } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
@@ -21,8 +20,8 @@ import { tap, take } from 'rxjs/operators';
   animations: [
     trigger('listAnimation', [
       transition('* => *', [
-        query('.video-wrapper', style({ opacity: 0, transform: 'scale(0.7)' }), { optional: true }),
-        query('.video-wrapper',
+        query(':enter', style({ opacity: 0, transform: 'scale(0.7)' }), { optional: true }),
+        query(':enter',
           stagger('100ms', [
             animate('300ms', style({ opacity: 1, transform: 'scale(1)' }))
           ]), { optional: true })
@@ -31,16 +30,13 @@ import { tap, take } from 'rxjs/operators';
   ]
 })
 
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
 
-  // videos: Item[] = [];
-
-
-  videos$ = new BehaviorSubject([]);
-  private _batch = 10;
+  videos: Item[] = [];
   private _pageToken: string;
   private _endOfFeed = false;
   private _playlistID = 'PLl-K7zZEsYLlTSrObc8GxDLarH7tF9WeW';
+  private destroys$ = new Subject();
 
   constructor(
     private yt: YoutubeService,
@@ -54,6 +50,11 @@ export class HomeComponent implements OnInit {
 
   }
 
+  ngOnDestroy() {
+    this.destroys$.next(true);
+    this.destroys$.unsubscribe();
+  }
+
   private getPlaylist(pageToken?: string) {
 
     if (this._endOfFeed) {
@@ -62,22 +63,17 @@ export class HomeComponent implements OnInit {
 
     this.yt.getPlaylist(this._playlistID, pageToken)
       .pipe(
-        tap((videos: any) => {
-          console.log(videos);
-          const newVideos = videos.items.slice(0, this._batch);
-          const currentVideos = this.videos$.getValue();
-          if (!videos.nextPageToken) {
-            this._endOfFeed = true;
-          } else {
-            this._pageToken = videos.nextPageToken;
-          }
-
-          this._batch += 10;
-          this.videos$.next([...currentVideos, ...newVideos]);
-        }),
-        take(1)
+        takeUntil(this.destroys$)
       )
-      .subscribe();
+      .subscribe((videos: any) => {
+        this.videos = [...this.videos, ...videos.items];
+        if (videos.nextPageToken) {
+          this._pageToken = videos.nextPageToken;
+        } else {
+          this._endOfFeed = true;
+        }
+      });
+
   }
 
   onScroll() {
