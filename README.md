@@ -21,3 +21,9 @@ Rendertron [(Rendertron)](https://render-tron.appspot.com/) : Rendertron renders
 Implemented CI / CD with [Circle CI](https://circleci.com/)
 
 Hosting with Firebase [Firebase](https://firebase.google.com/) and using Firebase Cloud Functions to serve the app
+
+## To-Do
+
+- Add page transition effect
+- Show related videos in player screen
+- Have auto-play feature on video player screen
