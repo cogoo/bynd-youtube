@@ -16,6 +16,11 @@ Rendertron [(Rendertron)](https://render-tron.appspot.com/) : Rendertron renders
 
 > Experimented with rendertron as an alternative to Angular Universal. The hosted version is not stable for production use, it's advisable to host your own instance
 
+__Twitter Card Validator__: 
+![alt text][logo]
+
+[logo]: https://github.com/cogoo/byond-youtube/raw/master/src/assets/img/rendertron.png "Twitter Card Validator"
+
 ## Extras
 
 Implemented CI / CD with [Circle CI](https://circleci.com/)
